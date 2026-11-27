@@ -1,0 +1,19 @@
+start,end,country,region,scope,cause,impact,source,notes
+2026-01-12,2026-01-15,Germany,,national,shutdown,2,Invented disruption review Q1,Invented for the demo
+2026-01-20,2026-01-20,France,,local,jamming,1,Invented disruption review Q1,Invented for the demo
+2026-02-03,2026-02-05,India,,regional,shutdown,3,Invented disruption review Q1,Invented for the demo
+2026-02-11,2026-02-11,Brazil,,local,cable,1,Invented disruption review Q1,Invented for the demo
+2026-02-18,2026-02-22,Japan,,national,cyber,2,Invented disruption review Q1,Invented for the demo
+2026-03-02,2026-03-03,United States,,regional,power,1,Invented disruption review Q2,Invented for the demo
+2026-03-09,2026-03-12,Kenya,,national,shutdown,2,Invented disruption review Q2,Invented for the demo
+2026-03-17,2026-03-17,Poland,,local,jamming,1,Invented disruption review Q2,Invented for the demo
+2026-04-06,2026-04-09,Indonesia,,regional,cable,2,Invented disruption review Q2,Invented for the demo
+2026-04-14,2026-04-14,Canada,,local,cyber,1,Invented disruption review Q2,Invented for the demo
+2026-04-23,2026-04-27,United Kingdom,,national,shutdown,2,Invented disruption review Q2,Invented for the demo
+2026-05-05,2026-05-06,Australia,,regional,power,1,Invented disruption review Q2,Invented for the demo
+2026-05-13,2026-05-13,Nigeria,,local,jamming,1,Invented disruption review Q2,Invented for the demo
+2026-05-21,2026-05-24,Mexico,,national,cyber,2,Invented disruption review Q2,Invented for the demo
+2026-06-02,2026-06-05,Germany,,regional,shutdown,2,Invented disruption review Q3,Invented for the demo
+2026-06-10,2026-06-10,India,,local,cable,1,Invented disruption review Q3,Invented for the demo
+2026-06-18,2026-06-21,Japan,,national,power,2,Invented disruption review Q3,Invented for the demo
+2026-07-01,2026-07-02,Brazil,,regional,cyber,1,Invented disruption review Q3,Invented for the demo

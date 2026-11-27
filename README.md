@@ -6,9 +6,9 @@ diagram that tests a claimed time, a 3D miniature of the scene with the camera's
 map, a before-and-after satellite slider, a whole scrolling map story, or a network of who is linked to whom where
 every connection opens the records behind it.
 
-Seven skills in the open [Agent Skills](https://agentskills.io) format, for Claude Code and other agents. Each one
-writes **a single HTML file**. The six graphics have export built in: PNG for all six, WebM video for track-map,
-scene-diorama and before-after, SVG for shadow-diagram and locator-map. The scroll story can also be written as a
+Eight skills in the open [Agent Skills](https://agentskills.io) format, for Claude Code and other agents. Each one
+writes **a single HTML file**. The seven graphics have export built in: PNG for all seven, WebM video for track-map,
+scene-diorama and before-after, SVG for shadow-diagram, locator-map and outage-timeline. The scroll story can also be written as a
 Svelte 5 project for a newsroom's own build. Python 3.9+, standard library only, no API keys. Time zones: `--tz` takes an offset like +04:00 or a
 zone name like Asia/Dubai; with a name, track-map's clock follows daylight-saving changes (on Windows, names need
 `pip install tzdata`).
@@ -23,6 +23,8 @@ zone name like Asia/Dubai; with a name, track-map's clock follows daylight-savin
 | **before-after**: a slider readers can drag, from free NASA imagery (the clearest pass near each date is picked for you) or your own licensed images. | **scroll-story**: a plain-text script becomes a scrolling story: the map flies between places, pictures change, the before/after divider moves with the scroll. Also as a Svelte project. |
 | ![A fictional network with one person selected and the source record behind their connection open](docs/gallery/network-graph.png) | ![A fictional network with names in Arabic, Hebrew, Chinese, Korean, Greek and other scripts](docs/gallery/network-graph-multilingual.png) |
 | **network-graph**: people, organisations, places or any types you define, linked only by connections you supply, each one backed by records you can open, which can hold the quote, where it is in the source, and what is uncertain. Search, filters, one- or two-step neighbourhoods and a table view; save the current view as JSON. Works offline. | Names and quotes in many scripts, including Arabic and Hebrew written right to left; the interface stays in English. [Open the demo](examples/network/demo.html) or [the multilingual one](examples/network/multilingual.html). |
+| ![A year of reported internet shutdowns by country, with a monthly event-day strip and a map](docs/gallery/outage-timeline.png) | ![Reported shutdowns in India in 2020, grouped by area](docs/gallery/outage-timeline-india.png) |
+| **outage-timeline**: dated disruption events become a Gantt timeline by country or area, with event-days per month, a country map, a mechanism and trigger breakdown, open-ended bars and the source on the graphic. | The same public data grouped by area, for a single country. Example data: Access Now #KeepItOn STOP, credited on the page. |
 
 ![The approximate view from the camera position in the diorama](docs/gallery/scene-diorama-camera-view.png)
 
@@ -30,7 +32,8 @@ zone name like Asia/Dubai; with a name, track-map's clock follows daylight-savin
 
 The track, shadow, diorama and locator examples use invented scenarios (fictional ships, claims and events) on real
 maps. The before-after and scroll-story examples use real NASA imagery of Lahaina, Maui, before and after the
-wildfire of 8 August 2023.
+wildfire of 8 August 2023. The outage examples use real public data from the Access Now #KeepItOn STOP dataset,
+credited on the graphic.
 The network examples are entirely fictional: every name, record and quote.
 
 ## Why
@@ -108,6 +111,9 @@ python3 skills/before-after/scripts/before_after.py --lat 20.873 --lon -156.677 
     --before 2023-08-05 --after 2023-08-10 --title "Lahaina before and after the fire"
 python3 skills/scroll-story/scripts/story.py examples/scroll-story/demo.md --svelte story-app/
 python3 skills/network-graph/scripts/network.py --input skills/network-graph/assets/demo.json --output network.html
+python3 skills/outage-timeline/scripts/outage.py examples/outage/stop-2020.csv --date-format us \
+    --snapshot 2020-12-31 --title "Internet shutdowns in 2020" \
+    --source "Access Now #KeepItOn STOP dataset (2020 file)"
 ```
 
 Each prints what it found (gaps, windows, matches) and writes the page. Open it in a browser, pick a frame (16:9, 1:1,
@@ -128,6 +134,7 @@ in its [schema reference](skills/network-graph/references/schema-and-build.md).
 | track-map | your CSV; basemap from [OpenFreeMap](https://openfreemap.org) | Map: OpenFreeMap © OpenMapTiles, data © OpenStreetMap contributors (credit is drawn on every export). Your data's own terms apply. |
 | scene-diorama | [Overpass API](https://overpass-api.de) (OpenStreetMap) | ODbL: credit "© OpenStreetMap contributors". One request per place (up to two retries if the server is busy), cached; Overpass is shared, so no bulk loops. |
 | locator-map | [Natural Earth](https://www.naturalearthdata.com), [Nominatim](https://nominatim.org) | Natural Earth is public domain. Nominatim: max 1 request per second, identifying User-Agent, results cached ([policy](https://operations.osmfoundation.org/policies/nominatim/)). |
+| outage-timeline | your table; example from [Access Now #KeepItOn STOP](https://www.accessnow.org/keepiton-data-dashboard/); outlines from [Natural Earth](https://www.naturalearthdata.com) | Your data's own terms apply. STOP is public data intended for reuse with attribution to Access Now and the #KeepItOn coalition; check the terms on the file you download. Natural Earth is public domain. |
 | shadow-diagram | none | Sun positions computed locally (NOAA equations). |
 | before-after | your images, or [NASA GIBS](https://www.earthdata.nasa.gov/gibs) (HLS, VIIRS, MODIS) | Keyless; the graphic credits NASA GIBS and, for HLS Sentinel-2, "contains modified Copernicus Sentinel data". The date search fetches up to one small preview per day, from the asked-for date out to 12 days before or after (`--window`), stopping early at a clear pass; cached. Your own images: their owner's terms. |
 | scroll-story | your script and images; map steps from OpenFreeMap | Map credit in the page's sources footer; every image needs its own credit. |
@@ -152,7 +159,8 @@ These limits are written into the skills. If you fork the pack, please keep them
 - The diorama's heights come from OpenStreetMap tags or are estimated from the building type; roofs and terrain are
   flat. Check it against satellite imagery before you publish.
 - The shadow maths ignores refraction, so it is unreliable within about 3 degrees of the horizon.
-- Locator borders follow Natural Earth's de facto lines. For disputed areas, follow your outlet's style guide.
+- Locator and outage-map borders follow Natural Earth's de facto lines. For disputed areas, follow your outlet's style guide.
+- In outage-timeline, a bar is a reported event, not a measurement. An open bar runs to the snapshot date, and overlapping events on the same day count twice; say both when you publish.
 - Free NASA HLS imagery is 30 m a pixel: single buildings are not visible, and some places (remote islands, some ocean
   areas) have no data on many dates. For detail, use licensed commercial imagery with `--before-image`/`--after-image`.
 - In the network graph, where a node sits means nothing: the layout is physics, not geography or importance. A
